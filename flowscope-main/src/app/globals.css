@@ -1,0 +1,298 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Layout Token CSS Custom Properties ──────────────────────────────────── */
+:root {
+  color-scheme: dark;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #020617;
+
+  /* Layout tokens (overridden per tier via media queries) */
+  --header-height: 72px;
+  --canvas-padding: 24px;
+  --section-padding: 32px;
+  --panel-radius: 32px;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+/* Compact tier (mobile) */
+@media (max-width: 767px) {
+  :root {
+    --header-height: 56px;
+    --canvas-padding: 8px;
+    --section-padding: 16px;
+    --panel-radius: 20px;
+  }
+}
+
+/* Medium tier (tablet) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --header-height: 64px;
+    --canvas-padding: 16px;
+    --section-padding: 24px;
+    --panel-radius: 28px;
+  }
+}
+
+/* ─── Base Resets ──────────────────────────────────────────────────────────── */
+html,
+body,
+#root {
+  min-height: 100%;
+  min-height: 100dvh;
+}
+
+body {
+  margin: 0;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.14), transparent 28%),
+    radial-gradient(circle at top right, rgba(99, 102, 241, 0.12), transparent 24%),
+    linear-gradient(180deg, #020617 0%, #030712 45%, #020617 100%);
+  color: #e5eefb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.28);
+  border-radius: 999px;
+}
+
+@media (max-width: 767px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+/* ─── Canvas Touch Isolation ──────────────────────────────────────────────── */
+.canvas-touch {
+  touch-action: none;
+  -webkit-overflow-scrolling: auto;
+  overscroll-behavior: contain;
+}
+
+/* Only canvas gets touch isolation, rest scrolls normally */
+.canvas-scroll-area {
+  touch-action: pan-y;
+  overscroll-behavior-y: contain;
+}
+
+/* ─── Ambient Orbs ────────────────────────────────────────────────────────── */
+.ambient-orb {
+  position: fixed;
+  inset: auto;
+  width: 28rem;
+  height: 28rem;
+  filter: blur(90px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-orb-left {
+  top: -5rem;
+  left: -8rem;
+  background: rgba(56, 189, 248, 0.8);
+}
+
+.ambient-orb-right {
+  top: 8rem;
+  right: -9rem;
+  background: rgba(99, 102, 241, 0.6);
+}
+
+@media (max-width: 767px) {
+  .ambient-orb {
+    width: 14rem;
+    height: 14rem;
+    filter: blur(60px);
+    opacity: 0.12;
+  }
+}
+
+/* ─── Panel System ────────────────────────────────────────────────────────── */
+.panel {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(8, 15, 32, 0.88), rgba(2, 6, 23, 0.84));
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 25px 70px rgba(0,0,0,0.28);
+  backdrop-filter: blur(18px);
+  border-radius: var(--panel-radius);
+}
+
+.panel-hero {
+  background:
+    radial-gradient(circle at top right, rgba(34, 211, 238, 0.12), transparent 28%),
+    radial-gradient(circle at top left, rgba(99, 102, 241, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(8, 15, 32, 0.96), rgba(3, 7, 18, 0.9));
+}
+
+.panel-canvas {
+  min-height: 100%;
+}
+
+.subpanel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+/* ─── Typography ──────────────────────────────────────────────────────────── */
+.eyebrow {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.45);
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+}
+
+/* ─── Status Chips ────────────────────────────────────────────────────────── */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  padding: 0.55rem 0.85rem;
+}
+
+@media (max-width: 767px) {
+  .status-chip {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────────────── */
+.btn-primary,
+.btn-secondary,
+.btn-tertiary-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.95rem;
+  transition: all 180ms ease;
+}
+
+.btn-primary {
+  background: white;
+  color: #020617;
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  background: rgba(255,255,255,0.04);
+}
+
+.btn-secondary:hover,
+.btn-tertiary-active:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.btn-tertiary-active {
+  border: 1px solid rgba(34,211,238,0.26);
+  color: rgb(207, 250, 254);
+  background: rgba(34,211,238,0.1);
+}
+
+/* ─── Range Slider ────────────────────────────────────────────────────────── */
+.range-premium {
+  width: 100%;
+  accent-color: rgb(34, 211, 238);
+}
+
+/* ─── Grid Glow ───────────────────────────────────────────────────────────── */
+.grid-glow {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(180deg, rgba(255,255,255,0.55), transparent 80%);
+}
+
+/* ─── Hero Scroll Compression ─────────────────────────────────────────────── */
+.hero-compressible {
+  will-change: transform, opacity;
+  transform-origin: top center;
+  transition: none; /* Driven by JS scroll handler for 60fps */
+}
+
+/* ─── Mobile Path View ────────────────────────────────────────────────────── */
+.mobile-path-connector {
+  width: 2px;
+  height: 32px;
+  margin: 0 auto;
+  background: linear-gradient(
+    180deg,
+    rgba(56, 189, 248, 0.3),
+    rgba(56, 189, 248, 0.08)
+  );
+  border-radius: 999px;
+  position: relative;
+}
+
+.mobile-path-connector::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: rgba(56, 189, 248, 0.4);
+  border-radius: 50%;
+}
+
+/* ─── Adaptive Viewport Heights ───────────────────────────────────────────── */
+.h-viewport-canvas {
+  height: calc(100dvh - var(--header-height) - var(--safe-top) - var(--safe-bottom) - 40px);
+  min-height: 400px;
+}
+
+@media (max-width: 767px) {
+  .h-viewport-canvas {
+    height: calc(100dvh - var(--header-height) - var(--safe-top) - var(--safe-bottom) - 24px);
+    min-height: 320px;
+  }
+}
