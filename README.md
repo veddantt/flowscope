@@ -1,124 +1,68 @@
 🚀 FlowScope — See How Systems Actually Work
 
-Most developers design distributed systems.
-Very few can actually see them in motion.
+Most developers design distributed systems. Very few can actually see them in motion.
 
-FlowScope changes that.
+FlowScope changes that by providing a high-fidelity, real-time simulation of distributed systems — visualizing latency, failures, and recovery mechanisms as they happen.
 
-🌐 Live Experience
+🌐 **Live Experience**
+👉 [flowscope-path.vercel.app](https://flowscope-path.vercel.app/)
 
-👉 https://flowscope-path.vercel.app/
+---
 
-⚡ The Problem
+## ⚡ The Problem
+Modern systems are distributed, asynchronous, and failure-prone. Yet, we still rely on static diagrams and logs to reason about them. None of these tools show the dynamic complexity of a system under stress in real time.
 
-Modern systems are no longer simple.
+## 💡 The Idea
+What if you could watch a request travel through your system? From the moment it hits the edge, through the gateway, auth, and service layers, into the queue, and finally the database — including every delay, retry, and failure along the path.
 
-They are:
-
-distributed
-asynchronous
-failure-prone
-hard to reason about
-
-Yet we still rely on:
-
-static diagrams
-logs
-intuition
-
-None of which show what actually happens in real time.
-
-💡 The Idea
-
-What if you could watch a request travel through your system?
-
-From the moment it hits the edge…
-to the database…
-and back again — including every delay, retry, and failure.
-
-🎬 What FlowScope Does
-
+## 🎬 What FlowScope Does
 FlowScope simulates a real-world architecture:
+`Edge → Gateway → Auth → Router → Cache → Service → Queue → Database`
 
-Edge → Gateway → Auth → Services → Queue → Database
+### ✨ Key Capabilities
+- 🧭 **Trace Every Request:** Follow requests as they move across services in real time.
+- ⏱ **Understand Latency:** See exactly where time is spent — and why p95 latency spikes.
+- 🔁 **Observe Failures & Retries:** Watch cascading failures and recovery mechanisms unfold visually.
+- 🎮 **Interactive Simulation:** Switch scenarios (Product Launch, DB Degradation) and watch the system adapt.
+- 🧠 **AI-Powered Analysis:** Real-time narrative breakdown of system health and bottlenecks.
 
-And turns it into a living system.
+## 🏗 Architecture & Tech Stack
+FlowScope is built with a high-performance reactive engine to ensure smooth 60fps animations even under high request load.
 
-✨ Key Capabilities
-🧭 Trace Every Request
+- **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
+- **Core:** React 19 (RC) + TypeScript
+- **State:** [Zustand](https://github.com/pmndrs/zustand) (minimal, powerful state management)
+- **Animation:** [Framer Motion](https://www.framer.com/motion/) (fluid system animations)
+- **Styling:** Tailwind CSS + Glassmorphism
+- **Deployment:** Vercel
 
-Follow requests as they move across services in real time.
+## 🚀 Getting Started
 
-⏱ Understand Latency
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/veddantt/flowscope.git
+   cd flowscope
+   ```
 
-See exactly where time is spent — and why systems slow down.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-🔁 Observe Failures & Retries
+3. **Run development server:**
+   ```bash
+   npm run dev
+   ```
 
-Watch cascading failures and recovery mechanisms unfold visually.
+4. **Build for production:**
+   ```bash
+   npm run build
+   ```
 
-🎮 Interactive Simulation
+## 🎯 Design Philosophy
+FlowScope is built on one core belief: **If you can see a system, you can understand it.** It's designed to be a "mental model engine" for backend engineers and architects.
 
-Control, replay, and experiment with system behavior.
+---
 
-🖥️ Experience
-
-(Add a GIF here — this is CRITICAL for impact)
-
-Suggested:
-
-request flowing across nodes
-latency spikes
-retry animation
-🧠 Why This Matters
-
-FlowScope is not just a visualization tool.
-
-It is a mental model engine for distributed systems.
-
-It helps you:
-
-think like a backend engineer
-debug like a systems architect
-understand complexity intuitively
-🏗 Architecture
-
-Built to mirror real-world systems:
-
-Event-driven simulation engine
-Node-based service graph
-Stateful request lifecycle tracking
-Reactive rendering pipeline
-🧰 Tech Stack
-React + TypeScript — scalable frontend architecture
-Vite — lightning-fast builds
-Zustand — minimal, powerful state management
-Framer Motion — fluid system animations
-Tailwind CSS — clean UI system
-Vercel — production deployment
-🚀 Getting Started
-git clone https://github.com/veddantt/flowscope.git
-cd flowscope
-npm install
-npm run dev
-🛠 Production Build
-npm run build
-npm run preview
-🎯 Design Philosophy
-
-FlowScope is built on one core belief:
-
-If you can see a system, you can understand it.
-
-🔮 Future Vision
-Pre-built real-world scenarios (Netflix, Uber, etc.)
-Latency heatmaps
-Failure injection system
-Real trace ingestion (OpenTelemetry)
-Collaborative debugging
-👤 Author
-
-Vedant Patel
-GitHub: https://github.com/veddantt
-
-⭐ If this made you think differently
+👤 **Author: Vedant Patel**
+GitHub: [@veddantt](https://github.com/veddantt)
