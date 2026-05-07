@@ -1,6 +1,7 @@
 "use client";
 
 import { Activity, Sparkles } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useMemo, useRef } from 'react';
 
 import { ControlsPanel } from '@/components/ControlsPanel';
@@ -11,7 +12,6 @@ import { TracesPanel } from '@/components/TracesPanel';
 import { formatCompact, formatMs, formatPct } from '@/lib/format';
 import { useSimulationStore } from '@/store/simulationStore';
 import { useViewport } from '@/lib/useViewport';
-import { useScrollCompress } from '@/lib/useScrollCompress';
 import { layout } from '@/lib/layout';
 
 function getSystemHealth(errorRate: number, p95: number) {
@@ -27,7 +27,16 @@ function getSystemHealth(errorRate: number, p95: number) {
 export default function App() {
   const { metrics, nodes, requestsById, scenarioId } = useSimulationStore();
   const { tier, isMobile, isTablet } = useViewport();
-  const scroll = useScrollCompress(isMobile ? 200 : 300);
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.85]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const heroTranslateY = useTransform(scrollYProgress, [0, 0.3], [0, -40]);
 
   const visibleTraces = useMemo(
     () => Object.values(requestsById).slice(0, 12),
@@ -54,21 +63,21 @@ export default function App() {
 
       <div className="mx-auto w-full max-w-[1400px] flex flex-col relative">
 
-        {/* ================= HERO — scroll-compressible ================= */}
         <div 
+          ref={containerRef}
           className="sticky z-0" 
           style={{ top: isMobile ? 16 : 24 }}
         >
-          <section
-            className="panel panel-hero relative overflow-hidden hero-compressible"
-          style={{
-            padding: isMobile ? '24px 20px' : '40px 32px',
-            transform: `scale(${scroll.heroScale < 0.5 ? 0.5 : scroll.heroScale})`,
-            opacity: scroll.heroOpacity < 0.05 ? 0 : scroll.heroOpacity,
-            transformOrigin: 'top center',
-            willChange: 'transform, opacity',
-          }}
-        >
+          <motion.section
+            className="panel panel-hero relative overflow-hidden"
+            style={{
+              padding: isMobile ? '24px 20px' : '40px 32px',
+              scale: heroScale,
+              opacity: heroOpacity,
+              y: heroTranslateY,
+              transformOrigin: 'top center',
+            }}
+          >
           <div className="hero-grid absolute inset-0 opacity-50" />
 
           <div className={`relative ${showHeroPreview ? 'grid items-center gap-10 xl:grid-cols-[1.1fr_0.9fr]' : ''}`}>
@@ -77,12 +86,17 @@ export default function App() {
             <div>
 
               {/* Badge */}
-              <div className={`inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-400/10 text-cyan-100 uppercase ${
-                isMobile ? 'px-2.5 py-0.5 text-[9px] tracking-[0.20em]' : 'px-3 py-1 text-[11px] tracking-[0.25em]'
-              }`}>
-                <Sparkles size={isMobile ? 12 : 14} />
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className={`inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-400/10 text-cyan-100 uppercase ${
+                  isMobile ? 'px-2.5 py-0.5 text-[9px] tracking-[0.20em]' : 'px-3 py-1 text-[11px] tracking-[0.25em]'
+                }`}
+              >
+                <Sparkles size={isMobile ? 12 : 14} className="text-cyan-400" />
                 {isMobile ? 'Real-time Sim' : 'Distributed Systems • Real-time Simulation'}
-              </div>
+              </motion.div>
 
               {/* Status */}
               <div className={`flex flex-wrap items-center gap-2 ${isMobile ? 'mt-3 text-xs' : 'mt-5 gap-3 text-sm'}`}>
@@ -100,17 +114,27 @@ export default function App() {
               </div>
 
               {/* Headline */}
-              <h1 className={`font-semibold tracking-tight text-white leading-[1.05] ${
-                isMobile ? 'mt-4 text-3xl' : 'mt-6 max-w-3xl text-5xl md:text-7xl'
-              }`}>
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className={`font-semibold tracking-tight text-white leading-[1.05] ${
+                  isMobile ? 'mt-4 text-3xl' : 'mt-6 max-w-3xl text-5xl md:text-7xl'
+                }`}
+              >
                 {isMobile ? 'Systems you can see.' : 'I build systems you can see.'}
-              </h1>
+              </motion.h1>
 
               {/* Subtext */}
               {!isMobile && (
-                <p className="mt-5 max-w-xl text-lg text-slate-300 leading-relaxed">
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="mt-5 max-w-xl text-lg text-slate-300 leading-relaxed"
+                >
                   Real-time simulation of distributed systems — latency, failures, retries — visualized as they happen.
-                </p>
+                </motion.p>
               )}
 
               {/* LIVE FEED */}
@@ -162,7 +186,7 @@ export default function App() {
               </div>
             )}
           </div>
-          </section>
+          </motion.section>
         </div>
 
         {/* ================= CONTENT BELOW HERO ================= */}
