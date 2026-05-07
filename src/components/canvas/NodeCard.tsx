@@ -128,6 +128,9 @@ export function NodeCard({
           className="pointer-events-none absolute inset-x-0 top-0 h-10 rounded-t-[20px]"
           style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%)' }}
         />
+        
+        {/* Physical texture overlay */}
+        <div className="noise-overlay" />
 
         {active && (
           <motion.div

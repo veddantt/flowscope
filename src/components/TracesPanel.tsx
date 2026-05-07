@@ -29,7 +29,9 @@ export function TracesPanel() {
   return (
     <section className={`grid gap-5 ${isMobile ? '' : 'xl:grid-cols-[0.95fr_1.05fr]'}`}>
       <div className="panel" style={{ padding: `${px}px` }}>
-        <div className="flex items-center justify-between gap-3">
+        <div className="noise-overlay" />
+        <div className="relative z-10">
+          <div className="flex items-center justify-between gap-3">
           <div>
             <div className="eyebrow">active + recent traces</div>
             <h2 className={`mt-2 font-semibold text-white ${isMobile ? 'text-lg' : 'text-2xl'}`}>
@@ -77,11 +79,14 @@ export function TracesPanel() {
               </button>
             );
           })}
-        </div>
+          </div>
+      </div>
       </div>
 
       <div className="panel" style={{ padding: `${px}px` }}>
-        <div className="eyebrow">trace breakdown</div>
+        <div className="noise-overlay" />
+        <div className="relative z-10">
+          <div className="eyebrow">trace breakdown</div>
         {!lead ? (
           <div className={`mt-5 border border-dashed border-white/10 text-sm text-white/50 ${
             isMobile ? 'rounded-[20px] p-6' : 'rounded-[26px] p-8'
@@ -161,6 +166,7 @@ export function TracesPanel() {
             ) : null}
           </div>
         )}
+        </div>
       </div>
     </section>
   );

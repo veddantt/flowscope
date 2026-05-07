@@ -11,6 +11,7 @@ import { SCENARIOS } from '../data/scenarios';
 import { useSimulationStore } from '../store/simulationStore';
 import { useViewport } from '../lib/useViewport';
 import { layout } from '../lib/layout';
+import { MagneticButton } from './MagneticButton';
 
 export function ControlsPanel() {
   const {
@@ -32,7 +33,8 @@ export function ControlsPanel() {
 
   return (
     <section className="panel" style={{ padding: `${px}px` }}>
-      <div className="space-y-5">
+      <div className="noise-overlay" />
+      <div className="relative z-10 space-y-5">
 
         {/* HEADER */}
         <div>
@@ -54,17 +56,19 @@ export function ControlsPanel() {
 
           {/* ACTIONS */}
           <div className="flex items-center gap-2">
-            <button
-              onClick={isRunning ? stop : start}
-              className={`flex items-center gap-2 rounded-xl bg-cyan-400/90 font-medium text-black transition hover:bg-cyan-300 ${
-                isMobile ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'
-              }`}
-            >
-              {isRunning ? <Pause size={isMobile ? 14 : 16} /> : <Play size={isMobile ? 14 : 16} />}
-              {isMobile
-                ? (isRunning ? 'Pause' : 'Run')
-                : (isRunning ? 'Freeze Moment' : 'Run System')}
-            </button>
+            <MagneticButton>
+              <button
+                onClick={isRunning ? stop : start}
+                className={`flex items-center gap-2 rounded-xl bg-cyan-400/90 font-medium text-black transition hover:bg-cyan-300 ${
+                  isMobile ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'
+                }`}
+              >
+                {isRunning ? <Pause size={isMobile ? 14 : 16} /> : <Play size={isMobile ? 14 : 16} />}
+                {isMobile
+                  ? (isRunning ? 'Pause' : 'Run')
+                  : (isRunning ? 'Freeze Moment' : 'Run System')}
+              </button>
+            </MagneticButton>
 
             <button
               onClick={step}

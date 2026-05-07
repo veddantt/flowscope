@@ -23,11 +23,18 @@ type Mode = 'normal' | 'focus' | 'replay' | 'cinematic';
 type Props = {
   nodes: NodeState[];
   traces: SimRequest[];
+  isCinematic?: boolean;
 };
-export function FlowCanvas({ nodes, traces }: Props) {
+export function FlowCanvas({ nodes, traces, isCinematic: externalCinematic }: Props) {
   const { tier, mode: interactionMode, isMobile, isTablet } = useViewport();
 
   const [mode, setMode] = useState<Mode>('normal');
+
+  useEffect(() => {
+    if (externalCinematic !== undefined) {
+      setMode(externalCinematic ? 'cinematic' : 'normal');
+    }
+  }, [externalCinematic]);
 
   const [sceneIndex, setSceneIndex] = useState(0);
   const playbackRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -434,6 +441,32 @@ export function FlowCanvas({ nodes, traces }: Props) {
                     backgroundSize: '44px 44px',
                   }}
                 />
+
+                {/* Ambient Dust Particles */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {Array.from({ length: 20 }).map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute rounded-full bg-white/10"
+                      initial={{ 
+                        x: Math.random() * CANVAS_W, 
+                        y: Math.random() * CANVAS_H, 
+                        scale: Math.random() * 2 + 1,
+                        opacity: Math.random() * 0.2
+                      }}
+                      animate={{
+                        y: [null, Math.random() * CANVAS_H],
+                        opacity: [0, 0.2, 0]
+                      }}
+                      transition={{
+                        duration: Math.random() * 10 + 10,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                      style={{ width: 2, height: 2 }}
+                    />
+                  ))}
+                </div>
 
                 <CinematicOverlay active={isCinematic} />
                 <LetterboxBars active={isCinematic} />
